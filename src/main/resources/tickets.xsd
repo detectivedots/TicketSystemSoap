@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://ticket.org/ws"
+        xmlns:tns="http://ticket.org/ws"
+        elementFormDefault="qualified">
+
+    <xs:element name="BookingRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="eventId" type="xs:long"/>
+                <xs:element name="ownerName" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="BookingResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="eventName" type="xs:string"/>
+                <xs:element name="ownerName" type="xs:string"/>
+                <xs:element name="serialNum" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="CreateEventRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="availableSeats" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="EventResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="availableSeats" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

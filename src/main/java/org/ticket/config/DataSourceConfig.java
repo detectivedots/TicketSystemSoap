@@ -3,25 +3,28 @@ package org.ticket.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.init.DataSourceInitializer;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 
 @Configuration
 public class DataSourceConfig {
-    @Value("db.driver")
+    @Value("${db.driver}")
     private String driver;
 
-    @Value("db.url")
+    @Value("${db.url}")
     private String url;
 
-    @Value("db.username")
+    @Value("${db.username}")
     private String username;
 
-    @Value("db.password")
+    @Value("${db.password}")
     private String password;
 
     @Bean
@@ -42,5 +45,16 @@ public class DataSourceConfig {
     @Bean
     public PlatformTransactionManager transactionManager(DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
+    }
+
+    @Bean
+    DataSourceInitializer dataSourceInitializer(DataSource dataSource){
+        ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator();
+        resourceDatabasePopulator.addScript(new ClassPathResource("schema.sql"));
+        resourceDatabasePopulator.addScript(new ClassPathResource("data.sql"));
+        DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
+        dataSourceInitializer.setDataSource(dataSource);
+        dataSourceInitializer.setDatabasePopulator(resourceDatabasePopulator);
+        return dataSourceInitializer;
     }
 }

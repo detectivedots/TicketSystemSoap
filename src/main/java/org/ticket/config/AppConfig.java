@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan(basePackages = "org.ticket")
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
-@PropertySource("classpath:application-${spring.profiles.active}.properties")
+@PropertySource("classpath:application-dev.properties")
 public class AppConfig {
 
 }
