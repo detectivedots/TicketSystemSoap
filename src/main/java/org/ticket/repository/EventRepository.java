@@ -6,6 +6,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.ticket.domain.entity.Event;
+import org.ticket.exception.EventFullException;
 import org.ticket.exception.EventNotFoundException;
 
 import java.sql.PreparedStatement;
@@ -27,7 +28,7 @@ public class EventRepository {
         try {
             Event event = jdbcTemplate.queryForObject(sql,
                     (rs, rowNum) -> new Event(
-                            rs.getInt("id"),
+                            rs.getLong("id"),
                             rs.getString("name"),
                             rs.getInt("seats_left"))
                     , eventId);
@@ -37,12 +38,21 @@ public class EventRepository {
         }
     }
 
+
     public void update(Event event){
         String sql = "UPDATE events " +
                 "SET name = ?, seats_left = ? " +
                 "WHERE id = ?;";
         boolean affected = jdbcTemplate.update(sql, event.getName(), event.getSeatsLeft(), event.getId()) > 0;
         if (!affected) throw new EventNotFoundException(event.getId());
+    }
+
+    public void deductSeat(Event event){
+        String sql = "UPDATE events " +
+                "SET seats_left = seats_left - 1 " +
+                "WHERE id = ? AND seats_left > 0;";
+        boolean affected = jdbcTemplate.update(sql, event.getId()) > 0;
+        if (!affected) throw new EventFullException(event.getId());
     }
 
     public Event create(Event event){
@@ -58,11 +68,11 @@ public class EventRepository {
             );
 
             ps.setString(1, event.getName());
-            ps.setInt(2, event.getId());
+            ps.setLong(2, event.getId());
             return ps;
         }, keyHolder);
 
-        event.setId(keyHolder.getKey().intValue());
+        event.setId(keyHolder.getKey().longValue());
         return event;
     }
 }

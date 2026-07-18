@@ -28,9 +28,7 @@ public class BookingServiceImpl implements BookingService {
         Long eventId = bookingRequestDto.getEventId();
         String ownerName = bookingRequestDto.getOwnerName();
         Event event = eventRepository.findById(eventId).orElseThrow();
-        if (event.isEventFull()) throw new EventFullException(eventId);
-        event.setSeatsLeft(event.getSeatsLeft() - 1);
-        eventRepository.update(event);
+        eventRepository.deductSeat(event);
 
         Ticket ticket = new Ticket(event, ownerName);
         ticket = ticketRepository.create(ticket);

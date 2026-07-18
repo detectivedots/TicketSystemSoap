@@ -1,7 +1,7 @@
 package org.ticket.domain.entity;
 
 public class Event {
-    private int id;
+    private Long id;
     private String name;
     private int seatsLeft;
 
@@ -9,7 +9,7 @@ public class Event {
 
     }
 
-    public Event(int id, String name, int seatsLeft){
+    public Event(Long id, String name, int seatsLeft){
         this.id = id;
         this.name = name;
         this.seatsLeft = seatsLeft;
@@ -21,11 +21,11 @@ public class Event {
     }
 
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
