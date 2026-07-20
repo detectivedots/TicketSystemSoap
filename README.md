@@ -85,21 +85,7 @@ After startup, the WSDL should be available at:
 http://localhost:8080/ws/tickets.wsdl
 ```
 
-## Postman Setup
-
-Use a `POST` request to:
-
-```text
-http://localhost:8080/ws
-```
-
-Set this header:
-
-```text
-Content-Type: text/xml;charset=UTF-8
-```
-
-And send a full SOAP envelope in the request body.
+## Request Examples
 
 ### Example: Create Event
 
@@ -146,22 +132,6 @@ The application uses SQL scripts located in `src/main/resources`:
 
 If you are using H2 locally, the schema is initialized automatically on startup.
 
-## Configuration
-
-Database connection settings are loaded from:
-
-```text
-application-dev.properties
-```
-
-Example properties:
-
-```properties
-db.driver=org.h2.Driver
-db.url=jdbc:h2:~/ticket_db
-db.username=sa
-db.password=
-```
 
 ## Notes
 
